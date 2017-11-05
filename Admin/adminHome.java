@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent;
 
 
 public class adminHome extends JFrame{
-
+	ViewTranscript view;
      public adminHome() {
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(250, 250, 450, 350);
@@ -50,6 +50,13 @@ public class adminHome extends JFrame{
 	
 	JButton btnViewTranscript = new JButton("View transcript");
 	btnViewTranscript.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnViewTranscript.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+		     view= new ViewTranscript();
+		     view.writeUsingIText();
+				
+		}
+	});
 	
 	JButton btnPayFees = new JButton("Enroll Student");
 	btnPayFees.setFont(new Font("Tahoma", Font.PLAIN, 15));

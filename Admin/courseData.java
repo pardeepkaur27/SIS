@@ -17,7 +17,7 @@ public class courseData extends JFrame implements ActionListener{
     public courseData(){
     	//provide title
     //super("Fetching scourse details");
-    lb5 = new JLabel("Enter course id:");
+        lb5 = new JLabel("Enter course id:");
         lb5.setBounds(20, 20, 100, 20);
         tf5 = new JTextField(20);
         tf5.setBounds(130, 20, 200, 20);
@@ -121,7 +121,7 @@ public class courseData extends JFrame implements ActionListener{
 	            	 Class.forName("oracle.jdbc.driver.OracleDriver");
 	            	 Connection con =DB.getConnection();
 	            	 
-	            	 PreparedStatement ps = con.prepareStatement("insert into Courses values (?,?,?,?,?,TO_DATE(?,'yyyy/mm/dd'),?)");
+	            	 PreparedStatement ps = con.prepareStatement("insert into courses values (?,?,?,?,?,TO_DATE(?,'yyyy/mm/dd'),?)");
 	            	    ps.setString(1, s1);
 	                    ps.setString(2, s2);
 	                    ps.setString(3, s3);

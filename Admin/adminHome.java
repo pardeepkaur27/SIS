@@ -53,7 +53,8 @@ public class adminHome extends JFrame{
 	btnViewTranscript.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		     view= new ViewTranscript();
-		     view.writeUsingIText();
+		     view.setVisible(true);
+		     
 				
 		}
 	});

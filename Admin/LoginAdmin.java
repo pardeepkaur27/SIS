@@ -5,27 +5,26 @@ import java.awt.EventQueue;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
 
 import studentSystem.DB;
+import studentSystem.LoginStudent;
+import studentSystem.Student;
+import studentSystem.studentHome;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginAdmin extends JFrame{
-	static LoginAdmin s;
-	public static void main(String[] args) {
-		//Main frame=new Main();
-		//frame.setVisible(true);
-		s= new LoginAdmin();
-		s.setVisible(true);
-		
-	}
+	
+	adminHome s;
+		Student student=new Student();
+	
 	public LoginAdmin(){
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(250, 250, 450, 350);
@@ -55,28 +54,40 @@ public class LoginAdmin extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			String name= textField.getText();
 			String pssword= String.valueOf(passwordField.getPassword());
-			String Uname, Pword;
+			List<String> Unames=new ArrayList<String>();
+			List<String> Pwords=new ArrayList<String>();
+			List<String> Names=new ArrayList<String>();
 		try{
 			Connection con=DB.getConnection();
 			Statement statement = con.createStatement();
 			ResultSet rset = statement.executeQuery("SELECT Adminid, password from AdminDetails");
+			int i=0;
 			while(rset.next()) {
-				 Uname= rset.getString(1);
-			     Pword=rset.getString(2);
-			     con.close();
-			if (name.equals(Uname) && pssword.equals(Pword)){
-				adminHome h= new adminHome();
-				h.setVisible(true);
-			   // s.dispose();
-				//JOptionPane.showMessageDialog(LoginAdmin.this,"Login successful");
+				
+			     Unames.add(rset.getString(1));
+			     Pwords.add(rset.getString(2));
+			     i++;
+			     
 			}
-			else
+			boolean status=false;
+			for(int j=0;j<Unames.size();j++){
+			if (name.equals(Unames.get(j)) && pssword.equals(Pwords.get(j))){
+				
+				s=new adminHome();
+				s.setVisible(true);
+				status=true;
+				
+				
+			}
+			    
+			}
+			if(status==false)
 			{
 				JOptionPane.showMessageDialog(LoginAdmin.this,"Invalid login credentials");
 				textField.setText("");
-				passwordField.setText("");}}
+				passwordField.setText("");}
 		}catch(SQLException ex) {
-			//System.out.println("error");
+			System.out.println("error");
 		}
 
 		
@@ -85,7 +96,7 @@ public class LoginAdmin extends JFrame{
 		
 	}
 	);
-	
+		
 	GroupLayout groupLayout= new GroupLayout(Panel);
 	Panel.setLayout(groupLayout);
 	

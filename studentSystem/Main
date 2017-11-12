@@ -1,6 +1,5 @@
 package studentSystem;
 
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -51,10 +50,9 @@ public class Main extends JFrame  {
 			public void actionPerformed(ActionEvent e) {
 				
 			LoginStudent s= new LoginStudent();
+			s.LoginStudents();
 			s.setVisible(true);
 			f.dispose();
-			
-			
 			}
 		});
 		

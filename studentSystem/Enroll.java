@@ -7,9 +7,14 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -65,22 +70,46 @@ public class Enroll extends JFrame {
 		   count++;
 	   }
 	  int x=0;
-	  boolean status=true;
-	  count++;
-	  System.out.println(addId+" "+count);
+	  sqlSel="Select add_id, course_id from add_course order by add_id";
+	  statement = con.prepareStatement(sqlSel);
+	   rs = statement.executeQuery(sqlSel);
+	   int AddId=0;
+	   while(rs.next()) {
+		   AddId= rs.getInt(1);
+		  
+	   }
+	 AddId++;
+	 
+	/* DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	 LocalDate currentDate = LocalDate.now();
+	 System.out.println(dtf.format(currentDate));
+	 Date deadline = new Date("2017/12/08");
+     System.out.println(sdf.format(deadline));*/
+	 
+	  System.out.println(addId+" "+count+" "+AddId);
 	  System.out.println(courseId.get(selected)+" "+id+" "+enrollDetails.getSemId()+" "+enrollDetails.getDept());
-	  if(count<3){
-		  for(int i=0; i<count;i++){
-			  if(StucourseId.get(i)==courseId.get(selected)){
-				  status=false;
-			  }
-				  
-		  }  
+	  
+	  String sql3="Select D.Sid, D.department from studentDept D, studentDetails S where S.Sid = D.Sid and S.Sid='" + id+"'";
+	  statement = con.prepareStatement(sql3);
+	   rs = statement.executeQuery(sql3);
+	   String stuDept = null;
+	   while(rs.next()) {
+		  stuDept= rs.getString(2);
+		  
+	   }
+	   System.out.println("Student dpt is "+stuDept+" "+enrollDetails.getDept());
+	   
+	  if(count>3){  JOptionPane.showMessageDialog(Enroll.this,"Sorry, you cannot register for more than three courses");
+	  }
+	  else{
+		  if(!stuDept.equals(enrollDetails.getDept())){
+			  JOptionPane.showMessageDialog(Enroll.this," Sorry, you cannot enroll out of department course. Contact admin"); 
 		  }
-		  if(status==true){
-	  String sql2="insert into add_course (add_id, course_id, Sid, Sem_id,department) values (?,?,?,?,?)";
+		  else{
+	  String sql2="insert into add_course (add_id, course_id, Sid, Sem_id, department) values (?,?,?,?,?)";
 	  PreparedStatement statement2 = con.prepareStatement(sql2);
-	  statement2.setInt(1, count);
+	  statement2.setInt(1, AddId);
 	  statement2.setString(2,courseId.get(selected));
 	  statement2.setString(3, id);
 	  statement2.setString(4, enrollDetails.getSemId());
@@ -89,16 +118,10 @@ public class Enroll extends JFrame {
 	  statement2.executeUpdate(); 
 	  con.close();
 	  x++;
-		    
+	  }   
+	 }
       if(x>0){ JOptionPane.showMessageDialog(Enroll.this,"Data Saved Successfully");}	
-      else{
-    	  JOptionPane.showMessageDialog(Enroll.this,"Not saved");
-      
-      }
-	  }else{
-		  JOptionPane.showMessageDialog(Enroll.this,"Sorry, you cannot register for more than three courses");
-	  }
-	  
+     
 	  }catch(SQLException ex) {
 				System.out.println("error");
 	        }

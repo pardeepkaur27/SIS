@@ -1,7 +1,7 @@
 package studentSystem;
 
 public class Student {
-	public static String Uname, Name;
+	public static String Uname, Name, Dept;
 	
 	public static void setUname(String UName){
 		Uname=UName;
@@ -16,5 +16,13 @@ public class Student {
 	
 	public static String getName(){
 		return Name;
+	}
+	
+	public static void setDept(String dept){
+		Dept=dept;
+	}
+	
+	public static String getDept(){
+		return Dept;
 	}
 }

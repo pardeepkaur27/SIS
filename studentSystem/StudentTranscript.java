@@ -1,7 +1,5 @@
 package studentSystem;
 
-
-
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 

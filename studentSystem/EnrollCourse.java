@@ -86,9 +86,28 @@ public class EnrollCourse extends JFrame {
     				System.out.println("error");
     	        }
     			
-    			
     	 }
     	});
+    	
+    	JButton btnBack = new JButton("Back");
+    	btnBack.setBounds(50,270, 100, 30);
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			dispose();
+    			new studentHome().setVisible(true);
+    		}
+    		});
+    	
+    	JButton btnLogout = new JButton("Logout");
+    	btnLogout.setBounds(170,270, 100, 30);
+    	btnLogout.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			dispose();
+    			new Main().setVisible(true);
+    		}
+    		});
+    		
+    	
     	add(lblEnroll);
     	add(lblTerm);
     	add(lblYear);
@@ -97,6 +116,8 @@ public class EnrollCourse extends JFrame {
     	add(cbYear);
     	add(cbDept);
     	add(btnContinue);
+    	add(btnBack);
+    	add(btnLogout);
     	setVisible(true);
     	
 	}

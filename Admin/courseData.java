@@ -1,6 +1,7 @@
 package Admin;
 
 import studentSystem.DB;
+import studentSystem.Main;
 
 import javax.swing.*;
 
@@ -73,6 +74,28 @@ public class courseData extends JFrame implements ActionListener{
         //add(lb5);
         //add(tf5);
         
+        JButton btnBack = new JButton("Back");
+    	btnBack.setBounds(50,400, 100, 20);
+    	btnBack.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			dispose();
+    			new adminHome().setVisible(true);
+    				
+    		}
+    	});
+    	
+    	JButton btnLogout = new JButton("Logout");
+    	btnLogout.setBounds(170,400, 100, 20);
+    	btnLogout.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			dispose();
+    			new Main().setVisible(true);
+    				
+    		}
+    	});
+    	
+        add(btnBack);
+        add(btnLogout);
         add(lb);
         add(lb1);
         add(tf1);

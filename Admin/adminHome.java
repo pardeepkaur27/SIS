@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 //import Admin.addCourse;
 import Admin.courseData;
+import studentSystem.Main;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,7 @@ public class adminHome extends JFrame{
 	btnAddCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	btnAddCourse.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			
+		dispose();	
 		courseData obj= new courseData();
 		obj.setVisible(true);
 				
@@ -52,6 +53,7 @@ public class adminHome extends JFrame{
 	btnViewTranscript.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	btnViewTranscript.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			dispose();
 		     view= new ViewTranscript();
 		     view.setVisible(true);
 		     
@@ -61,6 +63,17 @@ public class adminHome extends JFrame{
 	
 	JButton btnPayFees = new JButton("Enroll Student");
 	btnPayFees.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	
+	JButton btnLogout = new JButton("Logout");
+	btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnLogout.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			new Main().setVisible(true);
+		    
+			
+		 }
+	});
 	
 	
 	GroupLayout groupLayout= new GroupLayout(Panel);
@@ -89,6 +102,7 @@ public class adminHome extends JFrame{
 										    .addContainerGap(70, Short.MAX_VALUE))
 			.addGroup(groupLayout.createSequentialGroup()
 			.addComponent(btnPayFees, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+			.addComponent(btnLogout, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
 			.addGap(151))
 					);
 			
@@ -107,7 +121,7 @@ public class adminHome extends JFrame{
 				    .addComponent(btnViewTranscript, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 			.addGap(28)
 			 .addComponent(btnPayFees, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					
+			 .addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)		
 			);
 	
      }

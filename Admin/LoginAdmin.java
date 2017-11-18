@@ -72,7 +72,7 @@ public class LoginAdmin extends JFrame{
 			boolean status=false;
 			for(int j=0;j<Unames.size();j++){
 			if (name.equals(Unames.get(j)) && pssword.equals(Pwords.get(j))){
-				
+				dispose();
 				s=new adminHome();
 				s.setVisible(true);
 				status=true;

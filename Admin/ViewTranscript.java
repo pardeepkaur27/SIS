@@ -100,6 +100,7 @@ public class ViewTranscript  extends JFrame {
     	List<String> grades=new ArrayList<String>();
     	List<String> semester=new ArrayList<String>();
     	List<String> year=new ArrayList<String>();
+    	List<Double> numGrades=new ArrayList<Double>();
     	String studentId = null,name = null,Type = null, course_id = null, sem_id = null;
         Document document = new Document();
         PreparedStatement statement = null;
@@ -109,15 +110,13 @@ public class ViewTranscript  extends JFrame {
 			Connection con=DB.getConnection();
 			String id = S1;
 			System.out.println(id);
-			String sql = "Select S.Sid, S.Name, S.Type, A.course_id, C.course_name, N.sem_name , N.year, G.grade from studentDetails S, add_course A, grades G, courses C, semester N where S.Sid = ? and S.Sid=A.Sid and A.add_id=G.add_id and N.Sem_id=A.Sem_id and A.course_id=C.course_id";
+			String sql = "Select S.Sid, S.Name, S.Type, A.course_id, C.course_name, N.sem_name , N.year, G.grade, G.numeric_grade from studentDetails S, add_course A, grades G, courses C, semester N where S.Sid = ? and S.Sid=A.Sid and A.add_id=G.add_id and N.Sem_id=A.Sem_id and A.course_id=C.course_id";
             
             statement = con.prepareStatement(sql);
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
 			
-			//ResultSet rset = statement.executeQuery("Select S.Sid, S.Name, S.Type, A.course_id, C.course_name, N.sem_name , N.year, G.grade from studentDetails S, add_course A, grades G, courses C, semester N where S.Sid = ? and S.Sid=A.Sid and A.add_id=G.add_id and N.Sem_id=A.Sem_id and A.course_id=C.course_id");
-			
-	            PdfWriter.getInstance(document, new FileOutputStream(new File(FILE_NAME)));
+	        PdfWriter.getInstance(document, new FileOutputStream(new File(FILE_NAME)));
 			     
 	            document.open();
 
@@ -139,7 +138,7 @@ public class ViewTranscript  extends JFrame {
 			     semester.add(rs.getString(6));
 			     year.add(rs.getString(7));
 			     grades.add(rs.getString(8));
-			    
+			     numGrades.add(rs.getDouble(9));
 			      count++;
 		           
 		            
@@ -152,19 +151,31 @@ public class ViewTranscript  extends JFrame {
 			
 			p3.add("\n");
             p3.add("\n");
+            p4.add("Semester");
+            p4.add("	      ");
+            p4.add("CourseId");
+            p4.add("	       ");
+        	p4.add("Course Name");
+        	p4.add("	                              ");
+        	p4.add("Grade");
+            p4.add("	      ");
+        	p4.add("Numeric Grade");
+        	p4.add("\n");
+        	p4.add("\n");
             
             for(int i=0;i<count;i++){
             	p4.add(semester.get(i));
-            	p4.add("	      ");
+            	p4.add(" ");
             	p4.add(year.get(i));
             	p4.add("	      ");
             	p4.add(courseId.get(i));
             	p4.add("	      ");
             	p4.add(courseName.get(i));
-            	p4.add("	      ");
+            	p4.add("	                ");
             	
             	p4.add(grades.get(i));
-            	
+            	 p4.add("	      ");
+             	p4.add(numGrades.get(i).toString());
             	p4.add("\n");
             	
             }

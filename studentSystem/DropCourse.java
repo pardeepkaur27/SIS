@@ -43,18 +43,16 @@ public class DropCourse extends JFrame {
      }
      String course= courseId.get(selected);
      int addId= addIds.get(selected);
-     boolean status=false;
+     boolean status=new checkDeadline().check(); 
     Statement stmnt=con.createStatement();
-    
+    if(status==false){JOptionPane.showMessageDialog(DropCourse.this," Sorry, you cannot drop after the deadline");}
+	  else{
      String sql2= "Delete from add_course where add_id='" + addId + "'";
       stmnt.execute(sql2);
-     /* status=true;
-      
-      if (status==true){*/
-    	  JOptionPane.showMessageDialog(DropCourse.this,"Course dropped"); 
-     // }
+      JOptionPane.showMessageDialog(DropCourse.this,"Course dropped"); 
+	  }
      
-	 }catch(SQLException ex) {
+     }catch(SQLException ex) {
 			System.out.println("error");
      }
 }

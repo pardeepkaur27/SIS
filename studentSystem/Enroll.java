@@ -80,13 +80,6 @@ public class Enroll extends JFrame {
 	   }
 	 AddId++;
 	 
-	/* DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-	 LocalDate currentDate = LocalDate.now();
-	 System.out.println(dtf.format(currentDate));
-	 Date deadline = new Date("2017/12/08");
-     System.out.println(sdf.format(deadline));*/
-	 
 	  System.out.println(addId+" "+count+" "+AddId);
 	  System.out.println(courseId.get(selected)+" "+id+" "+enrollDetails.getSemId()+" "+enrollDetails.getDept());
 	  
@@ -98,8 +91,9 @@ public class Enroll extends JFrame {
 		  stuDept= rs.getString(2);
 		  
 	   }
-	   System.out.println("Student dpt is "+stuDept+" "+enrollDetails.getDept());
 	   
+	  boolean status=new checkDeadline().check(); 
+	  System.out.println("Student dpt is "+stuDept+" "+enrollDetails.getDept());
 	  if(count>3){  JOptionPane.showMessageDialog(Enroll.this,"Sorry, you cannot register for more than three courses");
 	  }
 	  else{
@@ -107,6 +101,8 @@ public class Enroll extends JFrame {
 			  JOptionPane.showMessageDialog(Enroll.this," Sorry, you cannot enroll out of department course. Contact admin"); 
 		  }
 		  else{
+			  if(status==false){JOptionPane.showMessageDialog(Enroll.this," Sorry, you cannot enroll after the deadline");}
+			  else{
 	  String sql2="insert into add_course (add_id, course_id, Sid, Sem_id, department) values (?,?,?,?,?)";
 	  PreparedStatement statement2 = con.prepareStatement(sql2);
 	  statement2.setInt(1, AddId);
@@ -118,6 +114,7 @@ public class Enroll extends JFrame {
 	  statement2.executeUpdate(); 
 	  con.close();
 	  x++;
+			  }
 	  }   
 	 }
       if(x>0){ JOptionPane.showMessageDialog(Enroll.this,"Data Saved Successfully");}	

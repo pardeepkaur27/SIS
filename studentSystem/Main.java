@@ -27,9 +27,6 @@ public class Main extends JFrame  {
 	static Main f;
 	
 	public static void main(String[] args) {
-
-		//Main frame=new Main();
-		//frame.setVisible(true);
 		f= new Main();
 		f.setVisible(true);
 		
@@ -78,7 +75,6 @@ public class Main extends JFrame  {
 		    dispose();	
 			LoginFaculty a= new LoginFaculty();
 			a.setVisible(true);
-			
 			
 			}
 		});

@@ -44,11 +44,11 @@ public class Enroll extends JFrame {
 		String sql="select course_id, course_name, faculty, dated from courses where department='" + dept + "' and Sem_id='"+ semId+"'";
 		
 		PreparedStatement statement = con.prepareStatement(sql);
-		System.out.println(enrollDetails.getDept());
+		System.out.println(enrollDetails.getDept()+semId);
 		ResultSet rs = statement.executeQuery(sql);
-	    
+		
 	    JTable table = new JTable(buildTableModel(rs));
-                
+	   // enrollDetails.setCourseId(rs.getString(1));        
 	   JOptionPane.showMessageDialog(null, new JScrollPane(table));
 	   int selected=table.getSelectedRow();
 	   System.out.println(selected);
@@ -92,16 +92,18 @@ public class Enroll extends JFrame {
 		  
 	   }
 	   
-	  boolean status=new checkDeadline().check(); 
+	  boolean statusDeadline=new checkDeadline().check(); 
+	  
 	  System.out.println("Student dpt is "+stuDept+" "+enrollDetails.getDept());
-	  if(count>3){  JOptionPane.showMessageDialog(Enroll.this,"Sorry, you cannot register for more than three courses");
+	
+	 if(count>=3){  JOptionPane.showMessageDialog(Enroll.this,"Sorry, you cannot register for more than three courses");
 	  }
 	  else{
 		  if(!stuDept.equals(enrollDetails.getDept())){
 			  JOptionPane.showMessageDialog(Enroll.this," Sorry, you cannot enroll out of department course. Contact admin"); 
 		  }
 		  else{
-			  if(status==false){JOptionPane.showMessageDialog(Enroll.this," Sorry, you cannot enroll after the deadline");}
+			  if(statusDeadline==false){JOptionPane.showMessageDialog(Enroll.this," Sorry, you cannot enroll after the deadline");}
 			  else{
 	  String sql2="insert into add_course (add_id, course_id, Sid, Sem_id, department) values (?,?,?,?,?)";
 	  PreparedStatement statement2 = con.prepareStatement(sql2);
@@ -111,10 +113,16 @@ public class Enroll extends JFrame {
 	  statement2.setString(4, enrollDetails.getSemId());
 	  statement2.setString(5, enrollDetails.getDept());
 	  
-	  statement2.executeUpdate(); 
+	  enrollDetails.setCourseId(courseId.get(selected));
+	  boolean status=new checkCapacity().capacityCheck();
+	  if(status==false){
+			 JOptionPane.showMessageDialog(Enroll.this,"Sorry, you cannot register. The class is full");
+		 }
+	  else{ statement2.executeUpdate(); 
 	  con.close();
 	  x++;
 			  }
+		  }
 	  }   
 	 }
       if(x>0){ JOptionPane.showMessageDialog(Enroll.this,"Data Saved Successfully");}	

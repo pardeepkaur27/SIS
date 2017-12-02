@@ -1,7 +1,8 @@
 package studentSystem;
 
 public class getEnrollDetails {
-	public static String Term, Year, Dept, SemId;
+	public static String Term, Year, Dept, SemId, CourseId;
+	public static int Capacity;
 	
 	public static void setTerm(String term){
 		Term=term;
@@ -33,5 +34,21 @@ public class getEnrollDetails {
 	
 	public static String getSemId(){
 		return SemId;
+	}
+	
+	public static void setCourseId(String courseId){
+		CourseId=courseId;
+	}
+	
+	public static String getCourseId(){
+		return CourseId;
+	}
+	
+	public static void setCapacity(int capacity){
+		Capacity=capacity;
+	}
+	
+	public static int getCapacity(){
+		return Capacity;
 	}
 }

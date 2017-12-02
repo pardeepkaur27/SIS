@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class DropCourse extends JFrame {
+public class DropCourse  {
 	 Student student = new Student();
 	 getEnrollDetails enrollDetails=new getEnrollDetails();
 	 List<String> courseId=new ArrayList<String>();
@@ -24,7 +24,7 @@ public class DropCourse extends JFrame {
       
       String id = student.getUname();
 
-      String sql="Select A.course_id, C.Course_name, C.faculty, S.Sem_name, A.add_id from add_course A, courses C, semester S where Sid='" +id+ "' and A.course_id=C.course_id and A.Sem_id=S.sem_id";
+      String sql="Select A.course_id, C.Course_name, C.faculty, S.Sem_name, S.year, A.add_id from add_course A, courses C, semester S where Sid='" +id+ "' and A.course_id=C.course_id and A.Sem_id=S.sem_id";
 
       PreparedStatement statement = con.prepareStatement(sql);
      
@@ -34,25 +34,29 @@ public class DropCourse extends JFrame {
         
      JOptionPane.showMessageDialog(null, new JScrollPane(table));
      int selected=table.getSelectedRow();
-     System.out.println(selected);
+     System.out.println(selected+ " id:"+id);
 
      rs = statement.executeQuery(sql);
      while(rs.next()) {
      courseId.add(rs.getString(1));
-     addIds.add(rs.getInt(5));
+     addIds.add(rs.getInt(6));
      }
      String course= courseId.get(selected);
      int addId= addIds.get(selected);
      boolean status=new checkDeadline().check(); 
-    Statement stmnt=con.createStatement();
-    if(status==false){JOptionPane.showMessageDialog(DropCourse.this," Sorry, you cannot drop after the deadline");}
-	  else{
-     String sql2= "Delete from add_course where add_id='" + addId + "'";
-      stmnt.execute(sql2);
-      JOptionPane.showMessageDialog(DropCourse.this,"Course dropped"); 
+   // Statement stmnt=con.createStatement();
+    if(status==false){JOptionPane.showMessageDialog(null," Sorry, you cannot drop after the deadline");}
+    if(status==true){
+    	Statement stmnt=con.createStatement();
+    	System.out.println("addid is"+addId);
+    	 String sql2= "Delete from add_course where add_id='" + addId + "'";
+         stmnt.execute(sql2);
+      con.close();
+      JOptionPane.showMessageDialog(null,"Course dropped"); 
 	  }
      
      }catch(SQLException ex) {
+    	 ex.printStackTrace();
 			System.out.println("error");
      }
 }

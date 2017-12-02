@@ -13,10 +13,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class FeePayment  extends JFrame {
 	String selected;
+	String selPayOption;
 	int pay;
 	int amount;
 	 String semId;
@@ -25,7 +27,7 @@ public class FeePayment  extends JFrame {
 	public FeePayment(){
 		 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	setBounds(250, 250, 450, 350);
+    	setBounds(250, 250, 450, 400);
     	
     	JLabel lbl1 = new JLabel(" Fee payment");
 		lbl1.setFont(new Font("Tahoma", Font.BOLD, 25));
@@ -38,15 +40,14 @@ public class FeePayment  extends JFrame {
 		String term[]={"Fall","Winter","Summer1","Summer2"};        
 		JComboBox cbTerm=new JComboBox(term);    
         cbTerm.setBounds(150, 90,100, 20); 
+        
        // int index= cbTerm.getSelectedIndex();
        // setAmount(index);
         
         JTextField txtTotal=new JTextField();
     	txtTotal.setBounds(150, 125, 100, 20);
         
-        JButton buttonTerm=new JButton("Continue");
-        buttonTerm.setBounds(270, 90,100, 20);
-        buttonTerm.addActionListener(new ActionListener() {
+        cbTerm.addActionListener(new ActionListener() {
      		public void actionPerformed(ActionEvent e) {
      			int index= cbTerm.getSelectedIndex();
      	        setAmount(index);
@@ -70,12 +71,21 @@ public class FeePayment  extends JFrame {
     	lblSelect.setBounds(40, 180, 150, 30);
     	setLayout(null);
     	
+    	JLabel lblCardNo = new JLabel("Enter Card no.: ");
+   	    lblCardNo.setBounds(40, 220, 150, 30);
+ 	
+ 	    JTextField txtCardNo=new JTextField();
+ 	    txtCardNo.setBounds(150, 220, 100, 20);
+    	
     	String methodPay[]={"VISA","Mastercard","International wire transfer"};        
    	    JComboBox cbPay=new JComboBox(methodPay);    
    	    cbPay.setBounds(150, 185,150, 20); 
    	    
+   	    
+   	    
+   	    
    	    JButton btnPay = new JButton("Pay");
-    	btnPay.setBounds(100,220, 100, 30);
+    	btnPay.setBounds(100,260, 100, 30);
     	btnPay.addActionListener(new ActionListener() {
      		public void actionPerformed(ActionEvent e) {
      			pay=Integer.parseInt(txtPayFee.getText());
@@ -91,7 +101,7 @@ public class FeePayment  extends JFrame {
      		         statement = con.prepareStatement(sql);
      		         statement.executeUpdate();
      		        
-     		    	
+     		        JOptionPane.showMessageDialog(null," Payment received sucessfully");	
      			con.close();
      			}
      			catch(SQLException ex) {
@@ -101,7 +111,7 @@ public class FeePayment  extends JFrame {
      	});
     	
     	JButton btnBack = new JButton("Back");
-    	btnBack.setBounds(70,270, 100, 30);
+    	btnBack.setBounds(70,300, 100, 30);
     	btnBack.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			dispose();
@@ -110,7 +120,7 @@ public class FeePayment  extends JFrame {
 	});
     	
     	JButton btnLogout = new JButton("Logout");
-    	btnLogout.setBounds(190,270, 100, 30);
+    	btnLogout.setBounds(190,300, 100, 30);
     	btnLogout.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			dispose();
@@ -118,11 +128,13 @@ public class FeePayment  extends JFrame {
     		
     	}
 	});
+    	
+    	 add(lblCardNo);
+         add(txtCardNo);	
          add(lbl1);
          add(lblTerm);
          add(cbTerm);
-         add(buttonTerm);
-     	 add(lblTotalFee);
+         add(lblTotalFee);
      	 add(txtTotal);
     	 add(lblPayFee);
     	 add(txtPayFee);
@@ -131,8 +143,25 @@ public class FeePayment  extends JFrame {
     	 add(btnPay);
     	 add(btnBack);
     	 add(btnLogout);
+    	 setVisible(true);
+    	 
+    	 cbPay.addActionListener(new ActionListener() {
+      		public void actionPerformed(ActionEvent e) {
+      			selected=cbPay.getSelectedItem().toString();
+      			 if (selected.equals("International wire transfer")){
+      		    	 lblCardNo.setVisible(false);
+      		    	 txtCardNo.setVisible(false);
+      		    	 }
+      			 else{
+      				lblCardNo.setVisible(true);
+     		    	 txtCardNo.setVisible(true);
+      			 }
+      		}	
+      		});
+    	
     	 
 	}
+	
  public void setAmount(int index){
 	 int amount = 0;
 	

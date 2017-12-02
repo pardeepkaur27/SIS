@@ -14,6 +14,7 @@ public class EnrollCourse extends JFrame {
 	String selectedTerm;
     String selectedDept;
 	String selectedYear;
+	String semId;
 	getEnrollDetails enrollDetails=new getEnrollDetails();
 	public static void main(String[] args){
 		EnrollCourse enroll=new EnrollCourse();
@@ -76,10 +77,17 @@ public class EnrollCourse extends JFrame {
                 statement.setString(2, selectedYear);
                 ResultSet rs = statement.executeQuery();
                 
+                semId=null;
                 while(rs.next()) {
-   				 getEnrollDetails.setSemId(rs.getString(1));
-   				 }
-                System.out.println(getEnrollDetails.getSemId());
+    				 semId=rs.getString(1);
+    				 }
+                System.out.println(semId);
+                enrollDetails.setSemId(semId);
+              if(semId!=null){
+            	  
+              }else{
+            	  JOptionPane.showMessageDialog(EnrollCourse.this,"No data found");
+              }
                 Enroll enroll= new Enroll();
                 
     			}catch(SQLException ex) {
@@ -133,13 +141,12 @@ public class EnrollCourse extends JFrame {
 		String sql = "Select sem_name, year from semester order by year"; 
         
         statement = con.prepareStatement(sql);
-        //statement.setString(1, id);
+      
         ResultSet rs = statement.executeQuery();
         while(rs.next()) {
         	
 		     semester.add(rs.getString(1));
-		     
-		     //department.add(rs.getString(5));
+		      
         }
     	
 	con.close();

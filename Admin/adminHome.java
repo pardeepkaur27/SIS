@@ -22,18 +22,17 @@ import java.awt.event.ActionEvent;
 public class adminHome extends JFrame{
 	ViewTranscript view;
      public adminHome() {
-	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	setBounds(250, 250, 450, 350);
-	JPanel Panel = new JPanel();
-	Panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-	setContentPane(Panel);
+    	 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     	setBounds(250, 250, 450, 400);
+ 	
 	
-	JLabel lbl1 = new JLabel(" Admin Home");
-	lbl1.setFont(new Font("Tahoma", Font.BOLD, 35));
-	lbl1.setForeground(Color.GRAY);
+	JLabel lbl1 = new JLabel("Admin Home");
+	lbl1.setFont(new Font("Tahoma", Font.BOLD, 25));
+	lbl1.setBounds(80, 40, 200, 30);
 	
 	JButton btnAddCourse = new JButton("Add courses");
 	btnAddCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnAddCourse.setBounds(40, 90, 150, 30);
 	btnAddCourse.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 		dispose();	
@@ -43,14 +42,16 @@ public class adminHome extends JFrame{
 		}
 	});
 	
-	JButton btnDropCourse = new JButton("Update Calender");
-	btnDropCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	JButton btnUpdateCalendar = new JButton("Update Calender");
+	btnUpdateCalendar.setBounds(200, 90,150, 30); 
 	
 	JButton btnViewCgpa = new JButton("View CGPA");
 	btnViewCgpa.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnViewCgpa.setBounds(40, 130, 150, 30);
 	
 	JButton btnViewTranscript = new JButton("View transcript");
 	btnViewTranscript.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnViewTranscript.setBounds(200, 130, 150, 30);
 	btnViewTranscript.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			dispose();
@@ -61,11 +62,47 @@ public class adminHome extends JFrame{
 		}
 	});
 	
-	JButton btnPayFees = new JButton("Enroll Student");
-	btnPayFees.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	JButton btnEnroll = new JButton("Enroll Student");
+	btnEnroll.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnEnroll.setBounds(40, 170, 150, 30);
+	btnEnroll.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			getStudentId getStu=new getStudentId();
+			getStu.setVisible(true);
+		     
+				
+		}
+	});
+	
+	JButton btnFeeDetails = new JButton("View fee payment");
+	btnFeeDetails.setFont(new Font("Tahoma", Font.PLAIN, 12));
+	btnFeeDetails.setBounds(200,170,150,30);
+	
+	JButton btnUpdateCapacity = new JButton("Update capacity");
+	btnUpdateCapacity.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnUpdateCapacity.setBounds(40,210,150,30);
+	btnUpdateCapacity.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			UpdateCapacity update= new UpdateCapacity();
+			update.setVisible(true);
+		     
+				
+		}
+	});
+	
+	JButton btnViewStatus = new JButton("View student enrollment");
+	btnViewStatus.setFont(new Font("Tahoma", Font.PLAIN, 11));
+	btnViewStatus.setBounds(200,210,150,30);
+	
+	JButton btnPassRetrieve = new JButton("Password retrieval");
+	btnPassRetrieve.setFont(new Font("Tahoma", Font.PLAIN, 12));
+	btnPassRetrieve.setBounds(40,250,150,30);
 	
 	JButton btnLogout = new JButton("Logout");
 	btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnLogout.setBounds(200,250, 150, 30);
 	btnLogout.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			dispose();
@@ -74,56 +111,19 @@ public class adminHome extends JFrame{
 			
 		 }
 	});
+	setLayout(null);
 	
-	
-	GroupLayout groupLayout= new GroupLayout(Panel);
-	Panel.setLayout(groupLayout);
-	
-	groupLayout.setAutoCreateGaps(true);
-	groupLayout.setAutoCreateContainerGaps(true);
-	
-	
-	
-	groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.CENTER)
-			.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-							.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lbl1))
-							.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-											.addComponent(btnAddCourse,GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-											.addComponent(btnViewCgpa, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
-									.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-											.addComponent(btnViewTranscript, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-											.addComponent(btnDropCourse,GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))))
-									      //  .addContainerGap(65, Short.MAX_VALUE)
-									       // addComponent(passwordField,GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))))
-										    .addContainerGap(70, Short.MAX_VALUE))
-			.addGroup(groupLayout.createSequentialGroup()
-			.addComponent(btnPayFees, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-			.addComponent(btnLogout, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-			.addGap(151))
-					);
-			
-	
-	groupLayout.setVerticalGroup(
-			groupLayout.createSequentialGroup()
-			.addComponent(lbl1)
-			.addGap(40)
-			.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-					.addComponent(btnAddCourse)
-					.addGap(40)
-					.addComponent(btnDropCourse, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-			.addGap(28)
-			.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-					.addComponent(btnViewCgpa)
-				    .addComponent(btnViewTranscript, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-			.addGap(28)
-			 .addComponent(btnPayFees, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-			 .addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)		
-			);
-	
+	add(btnPassRetrieve);
+	add(lbl1);
+	add(btnAddCourse);
+	add(btnUpdateCalendar);
+	add(btnViewStatus);
+	add(btnUpdateCapacity);
+	add(btnViewTranscript);
+	add(btnEnroll);
+	add(btnFeeDetails);
+	add(btnViewCgpa);
+	add(btnLogout);
      }
 	
 	}

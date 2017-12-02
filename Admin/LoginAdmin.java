@@ -9,6 +9,7 @@ import javax.swing.GroupLayout.Alignment;
 
 import studentSystem.DB;
 import studentSystem.LoginStudent;
+import studentSystem.Main;
 import studentSystem.Student;
 import studentSystem.studentHome;
 
@@ -47,6 +48,17 @@ public class LoginAdmin extends JFrame{
 	final JTextField textField= new JTextField();
 	
 	final JPasswordField passwordField= new JPasswordField();
+	
+	JButton btnBack= new JButton("Back");
+	btnBack.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnBack.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			Main m=new Main();
+			m.setVisible(true);
+		}
+		}
+			);
 	
 	JButton btnLogin= new JButton("Login");
 	btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -123,6 +135,7 @@ public class LoginAdmin extends JFrame{
 										    .addContainerGap(70, Short.MAX_VALUE))
 			.addGroup(groupLayout.createSequentialGroup()
 			.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+			.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 			.addGap(151))
 					);
 			
@@ -140,7 +153,7 @@ public class LoginAdmin extends JFrame{
 				    .addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 			.addGap(28)
 			 .addComponent(btnLogin)
-					
+			 .addComponent(btnBack)		
 			);
 	
 	

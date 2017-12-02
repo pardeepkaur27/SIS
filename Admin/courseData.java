@@ -31,7 +31,7 @@ public class courseData extends JFrame implements ActionListener{
  
         lb = new JLabel("Entering Course Information into Database");
         lb.setBounds(30, 80, 450, 30);
-        lb.setForeground(Color.red);
+        
         lb.setFont(new Font("Serif", Font.BOLD, 20));
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,9 +66,14 @@ public class courseData extends JFrame implements ActionListener{
         tf8 = new JTextField(50);
         tf8.setBounds(130, 300, 200, 20);
         setLayout(null);
+        
+        JLabel lblCapacity = new JLabel("Capacity:");
+        lblCapacity.setBounds(20, 330, 100, 20);
+        JTextField tfCapacity = new JTextField(50);
+        tfCapacity.setBounds(130, 330, 200, 20);
  
         btn1 = new JButton("Submit");
-        btn1.setBounds(160,330, 100, 20);
+        btn1.setBounds(60,360, 100, 20);
         btn1.addActionListener(this);
         //Add components to the JFrame
         //add(lb5);
@@ -96,6 +101,8 @@ public class courseData extends JFrame implements ActionListener{
     	
         add(btnBack);
         add(btnLogout);
+        add(lblCapacity);
+        add(tfCapacity);
         add(lb);
         add(lb1);
         add(tf1);

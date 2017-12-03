@@ -125,9 +125,10 @@ public class Enroll extends JFrame {
 		  }
 	  }   
 	 }
-      if(x>0){ JOptionPane.showMessageDialog(Enroll.this,"Data Saved Successfully");}	
+      if(x>0){ JOptionPane.showMessageDialog(Enroll.this,"Course enrolled Successfully");}	
      
 	  }catch(SQLException ex) {
+		  ex.printStackTrace();
 				System.out.println("error");
 	        }
 		

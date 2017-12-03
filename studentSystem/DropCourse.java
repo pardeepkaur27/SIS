@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class DropCourse  {
+public class DropCourse extends JFrame {
 	 Student student = new Student();
 	 getEnrollDetails enrollDetails=new getEnrollDetails();
 	 List<String> courseId=new ArrayList<String>();
@@ -45,14 +45,14 @@ public class DropCourse  {
      int addId= addIds.get(selected);
      boolean status=new checkDeadline().check(); 
    // Statement stmnt=con.createStatement();
-    if(status==false){JOptionPane.showMessageDialog(null," Sorry, you cannot drop after the deadline");}
+    if(status==false){JOptionPane.showMessageDialog(DropCourse.this," Sorry, you cannot drop after the deadline");}
     if(status==true){
     	Statement stmnt=con.createStatement();
     	System.out.println("addid is"+addId);
     	 String sql2= "Delete from add_course where add_id='" + addId + "'";
          stmnt.execute(sql2);
       con.close();
-      JOptionPane.showMessageDialog(null,"Course dropped"); 
+      JOptionPane.showMessageDialog(DropCourse.this,"Course dropped"); 
 	  }
      
      }catch(SQLException ex) {

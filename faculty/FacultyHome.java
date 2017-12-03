@@ -39,13 +39,25 @@ public class FacultyHome extends JFrame{
 		}
 	});
 	
-	JButton btnViewCourse = new JButton("View Courses");
-	btnViewCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnViewCourse.setBounds(200, 120, 150, 30);
+	JButton btnUpdateGrades = new JButton(" Update Grades");
+	btnUpdateGrades.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnUpdateGrades.setBounds(200, 120, 150, 30);
+    btnUpdateGrades.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			dispose();
+			new ModifyGrades().setVisible(true);
+		}
+	});
 	
 	JButton btnViewCgpa = new JButton("View CGPA");
 	btnViewCgpa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	btnViewCgpa.setBounds(40, 170, 150, 30);
+	btnViewCgpa.addActionListener(new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+			dispose();
+			new viewGpa().setVisible(true);
+		}
+	});
 	
 	JButton btnViewTranscript = new JButton("View transcript");
 	btnViewTranscript.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -57,9 +69,7 @@ public class FacultyHome extends JFrame{
 		}
 	});
 	
-	JButton btnUpdateGrades = new JButton(" Update Grades");
-	btnUpdateGrades.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnUpdateGrades.setBounds(100,220, 150, 30);
+	
 	
 	JButton btnBack = new JButton("Back");
 	btnBack.setBounds(50,270, 100, 30);
@@ -82,7 +92,6 @@ public class FacultyHome extends JFrame{
 	setLayout(null);
 	add(lbl1);
 	add(btnAddCourse);
-	add(btnViewCourse);
 	add(btnViewCgpa);
 	add(btnViewTranscript);
 	add(btnBack);

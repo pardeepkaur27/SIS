@@ -16,16 +16,15 @@ import javax.swing.JTextField;
 
 import studentSystem.DB;
 import studentSystem.Main;
-import studentSystem.studentHome;
 
-public class EnterGrades extends JFrame {
+public class Modify extends JFrame {
 	String StudentId, Grade, AddId;
-	public EnterGrades(){
+	public Modify(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setBounds(250, 250, 450, 350);
     	
          
-    	JLabel lblEnroll = new JLabel("Add Grades");
+    	JLabel lblEnroll = new JLabel("Update Grades");
     	lblEnroll.setBounds(160, 60, 150, 30);
     	lblEnroll.setFont(new Font("Tahoma", Font.BOLD, 15));
     	
@@ -48,7 +47,7 @@ public class EnterGrades extends JFrame {
     			StudentId=textStuId.getText();
     			Grade=textGrade.getText();
     			getAddId();
-    			AddGrade();
+    			UpdateGrade();
     		}
     	});
     	
@@ -86,7 +85,9 @@ public class EnterGrades extends JFrame {
 		PreparedStatement statement = null;
         
     	try{
-    		String courseId=GradesAdd.selectedCourse;
+    		
+    	String courseId=ModifyGrades.selectedCourse;
+    	System.out.println("Student id is"+" "+StudentId+" "+courseId);
 		Connection con=DB.getConnection();
 		String sql = "select A.add_id from add_course A, courses c, studentDetails S where C.course_id=A.course_id and S.Sid=A.Sid and A.Sid='"+StudentId+"' and A.course_id='"+courseId+"'"; 
         
@@ -106,24 +107,24 @@ public class EnterGrades extends JFrame {
 	
 	}
 
-	public void AddGrade(){
+	public void UpdateGrade(){
      try{
    	 int x=0;
    	 Connection con =DB.getConnection();
+   	 double numericGrade=getNumericGrade(Grade);
    	if (AddId!= null && !AddId.equals("")) {
    		
-   	 PreparedStatement ps = con.prepareStatement("insert into grades(add_id, grade, numeric_grade) values (?,?,?)");
-   	    ps.setString(1, AddId);
-   	    ps.setString(2,Grade);
-   	    ps.setDouble(3, getNumericGrade(Grade));
-   	    System.out.println(getNumericGrade(Grade));
+   	 PreparedStatement ps = con.prepareStatement("update grades set grade =?, numeric_grade=? where add_id= '" +AddId+ "'");
+   	 ps.setString(1, Grade);
+   	 ps.setDouble(2, numericGrade);
+   	 System.out.println(getNumericGrade(Grade));
            
            ResultSet rs = ps.executeQuery(); 
    	x++;
-   if(x>0){ JOptionPane.showMessageDialog(EnterGrades.this, "Data Saved Successfully");}
+   if(x>0){ JOptionPane.showMessageDialog(Modify.this, "Data updated Successfully");}
    
   	 }
-  	 else{ JOptionPane.showMessageDialog(EnterGrades.this, "Student is not enrolled for this course");
+  	 else{ JOptionPane.showMessageDialog(Modify.this, "Student is not enrolled for this course");
    	 }
    	            	
    }catch(Exception ex)

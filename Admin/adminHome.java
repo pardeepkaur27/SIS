@@ -117,6 +117,16 @@ public class adminHome extends JFrame{
 	JButton btnPassRetrieve = new JButton("Password retrieval");
 	btnPassRetrieve.setFont(new Font("Tahoma", Font.PLAIN, 12));
 	btnPassRetrieve.setBounds(40,250,150,30);
+	btnPassRetrieve.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			PasswordRetrieve pss= new PasswordRetrieve();
+			pss.passwordRetrieve();
+			pss.setVisible(true);
+		     
+				
+		}
+	});
 	
 	JButton btnSearchCourse = new JButton("Search Course");
 	btnSearchCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));

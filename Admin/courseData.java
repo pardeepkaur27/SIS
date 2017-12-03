@@ -13,6 +13,7 @@ public class courseData extends JFrame implements ActionListener{
 	
 	JLabel lb, lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8;
     JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8;
+    JTextField tfCapacity;
     JButton btn1, btn2;
     
     public courseData(){
@@ -69,7 +70,7 @@ public class courseData extends JFrame implements ActionListener{
         
         JLabel lblCapacity = new JLabel("Capacity:");
         lblCapacity.setBounds(20, 330, 100, 20);
-        JTextField tfCapacity = new JTextField(50);
+        tfCapacity = new JTextField(50);
         tfCapacity.setBounds(130, 330, 200, 20);
  
         btn1 = new JButton("Submit");
@@ -142,7 +143,7 @@ public class courseData extends JFrame implements ActionListener{
 	            String s6 = tf6.getText();
 	            String s7 = tf7.getText(); 
 	            String s8 = tf8.getText();
-	            
+	            String capacity=tfCapacity.getText();
 	       
 	            
 	            try
@@ -160,6 +161,12 @@ public class courseData extends JFrame implements ActionListener{
 	                    ps.setString(6, s7);
 	                    ps.setString(7, s8);
 	                    ResultSet rs = ps.executeQuery(); 
+	                    
+	                    ps= con.prepareStatement("insert into capacity values(?,?)");
+	                    ps.setString(1, s1);
+	                    ps.setString(2, capacity);
+	                    
+	                    rs = ps.executeQuery(); 
 	            	x++;
 	            if(x>0){ JOptionPane.showMessageDialog(btn1, "Data Saved Successfully");}	
 	            	            	
@@ -178,7 +185,7 @@ public class courseData extends JFrame implements ActionListener{
           tf6.setText("");
           tf7.setText("");
           tf8.setText("");
-          
+          tfCapacity.setText("");
       }
 		 
 }

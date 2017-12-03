@@ -78,6 +78,15 @@ public class adminHome extends JFrame{
 	JButton btnFeeDetails = new JButton("View fee payment");
 	btnFeeDetails.setFont(new Font("Tahoma", Font.PLAIN, 12));
 	btnFeeDetails.setBounds(200,170,150,30);
+	btnFeeDetails.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			FeeDetails getFee=new FeeDetails();
+			getFee.setVisible(true);
+		     
+				
+		}
+	});
 	
 	JButton btnUpdateCapacity = new JButton("Update capacity");
 	btnUpdateCapacity.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -95,14 +104,35 @@ public class adminHome extends JFrame{
 	JButton btnViewStatus = new JButton("View student enrollment");
 	btnViewStatus.setFont(new Font("Tahoma", Font.PLAIN, 11));
 	btnViewStatus.setBounds(200,210,150,30);
+	btnViewStatus.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			checkStudentEnroll update= new checkStudentEnroll();
+			update.setVisible(true);
+		     
+				
+		}
+	});
 	
 	JButton btnPassRetrieve = new JButton("Password retrieval");
 	btnPassRetrieve.setFont(new Font("Tahoma", Font.PLAIN, 12));
 	btnPassRetrieve.setBounds(40,250,150,30);
 	
+	JButton btnSearchCourse = new JButton("Search Course");
+	btnSearchCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnSearchCourse.setBounds(200,250, 150, 30);
+	btnSearchCourse.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			new CourseSearch().setVisible(true);
+		    
+			
+		 }
+	});
+	
 	JButton btnLogout = new JButton("Logout");
 	btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnLogout.setBounds(200,250, 150, 30);
+	btnLogout.setBounds(80,290, 150, 30);
 	btnLogout.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			dispose();
@@ -123,6 +153,7 @@ public class adminHome extends JFrame{
 	add(btnEnroll);
 	add(btnFeeDetails);
 	add(btnViewCgpa);
+	add(btnSearchCourse);
 	add(btnLogout);
      }
 	

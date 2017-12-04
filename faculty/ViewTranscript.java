@@ -2,7 +2,6 @@ package faculty;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import studentSystem.DB;
 import studentSystem.Main;
 import studentSystem.Student;
@@ -32,6 +31,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
@@ -41,6 +41,7 @@ import javax.swing.border.EmptyBorder;
 public class ViewTranscript  extends JFrame {
 	Student student = new Student();
 	static String S1;
+	 boolean status; 
     private static final String FILE_NAME = "itext.pdf";
     
     public ViewTranscript(){
@@ -66,7 +67,13 @@ public class ViewTranscript  extends JFrame {
     	btnViewTranscript.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			S1=textField.getText();
+    			checkStudentId();
+    			if(status==true){
     		    writeUsingIText();
+    			}else{
+    				JOptionPane.showMessageDialog(ViewTranscript.this,"Invalid student id");
+    				textField.setText("");
+    			}
     				
     		}
     	});
@@ -201,6 +208,38 @@ public class ViewTranscript  extends JFrame {
         }
 
     }
+    public void checkStudentId(){
+    	try{
+    		List<String> studentIds=new ArrayList<String>();
+    		PreparedStatement statement = null;
+    		Connection con=DB.getConnection();
+			String id = S1;
+			System.out.println(id);
+			String sql = "Select Sid from studentDetails";
+            
+            statement = con.prepareStatement(sql);
+            
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+				 studentIds.add(rs.getString(1));
+            }
+            con.close();
+            status=false;
+            for(int i=0;i<studentIds.size();i++){
+            	if(S1.equals(studentIds.get(i))){
+            		status=true;
+            	}
+            	
+            }
+            
+    	}
+		catch(SQLException ex) {
+					System.out.println("error");
+				}
+    	
+    	
+    }
+    
     public static void main(String[] args) {
     	ViewTranscript view= new ViewTranscript();
     	view.setVisible(true);

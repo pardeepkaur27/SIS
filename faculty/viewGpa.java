@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import Director.viewTrans;
 import studentSystem.DB;
 import studentSystem.Main;
 import studentSystem.Student;
@@ -29,6 +30,7 @@ public class viewGpa extends JFrame{
 	 List<Integer> numericGrades=new ArrayList<Integer>();
 	Student student = new Student();
 	int Gpa, Cgpa;
+	 boolean status; 
 	JTextField tfStuId;
 	public viewGpa(){
 		
@@ -80,10 +82,18 @@ public class viewGpa extends JFrame{
 					selectedTerm=cbTerm.getSelectedItem().toString();
 					selectedYear=cbYear.getSelectedItem().toString();
 					SemId();
-					calculateGpa();
-					calculateCGpa();
-					textGpa.setText(String.valueOf((Gpa)));
-					textCGpa.setText(String.valueOf((Cgpa)));
+					checkStudentId();
+	    			if(status==true){
+	    				calculateGpa();
+						calculateCGpa();
+						textGpa.setText(String.valueOf((Gpa)));
+						textCGpa.setText(String.valueOf((Cgpa)));
+	    			}else{
+	    				JOptionPane.showMessageDialog(viewGpa.this,"Invalid student id");
+	    				
+	    			}
+	    				
+					
 				}
 				});
 		 
@@ -206,5 +216,35 @@ public class viewGpa extends JFrame{
 			System.out.println("error");
         }
 	}
+	
+	public void checkStudentId(){
+    	try{
+    		List<String> studentIds=new ArrayList<String>();
+    		PreparedStatement statement = null;
+    		Connection con=DB.getConnection();
+			String id = studentId;
+			System.out.println(id);
+			String sql = "Select Sid from studentDetails";
+            
+            statement = con.prepareStatement(sql);
+            
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+				 studentIds.add(rs.getString(1));
+            }
+            con.close();
+            status=false;
+            for(int i=0;i<studentIds.size();i++){
+            	if(studentId.equals(studentIds.get(i))){
+            		status=true;
+            	}
+            	
+            }
+            
+    	}
+		catch(SQLException ex) {
+					System.out.println("error");
+				}
 	}
 	
+}

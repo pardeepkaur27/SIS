@@ -48,6 +48,15 @@ public class adminHome extends JFrame{
 	JButton btnViewCgpa = new JButton("View CGPA");
 	btnViewCgpa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 	btnViewCgpa.setBounds(40, 130, 150, 30);
+	btnViewCgpa.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+		      new ViewCgpa().setVisible(true);
+		     
+		     
+				
+		}
+	});
 	
 	JButton btnViewTranscript = new JButton("View transcript");
 	btnViewTranscript.setFont(new Font("Tahoma", Font.PLAIN, 15));

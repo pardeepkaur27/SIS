@@ -234,4 +234,6 @@ public class CourseSearch extends JFrame {
     				System.out.println("error");
     			}
     	}
+        
+        
 	}

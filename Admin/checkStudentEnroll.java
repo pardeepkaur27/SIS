@@ -28,6 +28,7 @@ import studentSystem.getEnrollDetails;
 
 public class checkStudentEnroll extends JFrame{
 	String studentId;
+	boolean status;
 	public checkStudentEnroll(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setBounds(250, 250, 450, 350);
@@ -48,7 +49,14 @@ public class checkStudentEnroll extends JFrame{
      	btnOk.addActionListener(new ActionListener() {
      		public void actionPerformed(ActionEvent e) {
      			studentId=textField.getText();
-     			checkEnroll();
+     			checkStudentId();
+    			if(status==true){
+    				checkEnroll();
+    			}else{
+    				JOptionPane.showMessageDialog(checkStudentEnroll.this,"Invalid student id");
+    				textField.setText("");
+    			}
+     			
      			
      	}
  	});
@@ -136,6 +144,38 @@ public class checkStudentEnroll extends JFrame{
 				    return new DefaultTableModel(data, columnNames);
 
 				}
+			 
+			 public void checkStudentId(){
+			    	try{
+			    		List<String> studentIds=new ArrayList<String>();
+			    		PreparedStatement statement = null;
+			    		Connection con=DB.getConnection();
+						String id = studentId;
+						System.out.println(id);
+						String sql = "Select Sid from studentDetails";
+			            
+			            statement = con.prepareStatement(sql);
+			            
+			            ResultSet rs = statement.executeQuery();
+			            while(rs.next()) {
+							 studentIds.add(rs.getString(1));
+			            }
+			            con.close();
+			            status=false;
+			            for(int i=0;i<studentIds.size();i++){
+			            	if(id.equals(studentIds.get(i))){
+			            		status=true;
+			            	}
+			            	
+			            }
+			            
+			    	}
+					catch(SQLException ex) {
+								System.out.println("error");
+							}
+			    	
+			    	
+			    }
 			}
 
 

@@ -3,17 +3,26 @@ package Admin;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import studentSystem.DB;
 import studentSystem.Student;
 
 public class getStudentId extends JFrame{
 	Student student = new Student();
 	static String S1;
+	boolean status;
 	public getStudentId(){
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setBounds(250, 250, 450, 350);
@@ -38,9 +47,16 @@ public class getStudentId extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			dispose();
 			S1=textField.getText();
-			System.out.println("student id"+S1);
-		student.setUname(S1);
-		EnrollStudent enroll=new EnrollStudent();
+			checkStudentId();
+			if(status==true){
+				System.out.println("student id"+S1);
+				student.setUname(S1);
+				EnrollStudent enroll=new EnrollStudent();
+			}else{
+				JOptionPane.showMessageDialog(getStudentId.this,"Invalid student id");
+				textField.setText("");
+			}
+			
 				
 		}
 	});
@@ -66,4 +82,35 @@ public class getStudentId extends JFrame{
 	
 	 setVisible(true);
 }
+	public void checkStudentId(){
+    	try{
+    		List<String> studentIds=new ArrayList<String>();
+    		PreparedStatement statement = null;
+    		Connection con=DB.getConnection();
+			String id = S1;
+			System.out.println(id);
+			String sql = "Select Sid from studentDetails";
+            
+            statement = con.prepareStatement(sql);
+            
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+				 studentIds.add(rs.getString(1));
+            }
+            con.close();
+            status=false;
+            for(int i=0;i<studentIds.size();i++){
+            	if(S1.equals(studentIds.get(i))){
+            		status=true;
+            	}
+            	
+            }
+            
+    	}
+		catch(SQLException ex) {
+					System.out.println("error");
+				}
+    	
+    	
+    }
 }

@@ -7,11 +7,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import studentSystem.DB;
@@ -21,12 +24,13 @@ import studentSystem.studentHome;
 public class FeeDetails extends JFrame{
 	String semId, studentId;
 	int amount;
+	boolean status;
 	public FeeDetails(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setBounds(250, 250, 450, 350);
     	
     	JLabel lbl = new JLabel("View Payment status");
-    	lbl.setBounds(110, 40, 200, 30);
+    	lbl.setBounds(110, 40, 200, 20);
     	lbl.setFont(new Font("Tahoma", Font.BOLD, 20));
     	
     	JLabel lbl1 = new JLabel("Enter Student id: ");
@@ -54,8 +58,15 @@ public class FeeDetails extends JFrame{
      		public void actionPerformed(ActionEvent e) {
      			studentId=textField.getText();
      			int index= cbTerm.getSelectedIndex();
-     	        setAmount(index);
-     	        txtTotal.setText(String.valueOf(getAmount()));
+     			checkStudentId();
+    			if(status==true){
+    				setAmount(index);
+         	        txtTotal.setText(String.valueOf(getAmount()));
+    			}else{
+    				JOptionPane.showMessageDialog(FeeDetails.this,"Invalid student id");
+    				textField.setText("");
+    			}
+     	        
      		}});
         
         JButton btnBack = new JButton("Back");
@@ -116,4 +127,36 @@ public class FeeDetails extends JFrame{
 	   public int getAmount(){
 		 return amount;
 	   }
+	   
+	   public void checkStudentId(){
+	    	try{
+	    		List<String> studentIds=new ArrayList<String>();
+	    		PreparedStatement statement = null;
+	    		Connection con=DB.getConnection();
+				String id = studentId;
+				System.out.println(id);
+				String sql = "Select Sid from studentDetails";
+	            
+	            statement = con.prepareStatement(sql);
+	            
+	            ResultSet rs = statement.executeQuery();
+	            while(rs.next()) {
+					 studentIds.add(rs.getString(1));
+	            }
+	            con.close();
+	            status=false;
+	            for(int i=0;i<studentIds.size();i++){
+	            	if(studentId.equals(studentIds.get(i))){
+	            		status=true;
+	            	}
+	            	
+	            }
+	            
+	    	}
+			catch(SQLException ex) {
+						System.out.println("error");
+					}
+	    	
+	    	
+	    }
 	}

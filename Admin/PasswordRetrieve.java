@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -48,8 +51,15 @@ public class PasswordRetrieve extends JFrame {
 	    		public void actionPerformed(ActionEvent e) {
 	    			studentId=tfStuId.getText();
 	    			System.out.println(studentId);
-	    			dispose();
-	    			new Retrieve();
+	    			checkStudentId();
+	    			if(status==true){
+	    				dispose();
+		    			new Retrieve();
+	    			}else{
+	    				JOptionPane.showMessageDialog(PasswordRetrieve.this,"Invalid student id");
+	    				
+	    			}
+	    			
 	    				
 	    		}
 	    	});
@@ -85,5 +95,35 @@ public class PasswordRetrieve extends JFrame {
 	    	 setVisible(true);
 	    }
 	    
-	    
+	    public void checkStudentId(){
+	    	try{
+	    		List<String> studentIds=new ArrayList<String>();
+	    		PreparedStatement statement = null;
+	    		Connection con=DB.getConnection();
+				String id = studentId;
+				System.out.println(id);
+				String sql = "Select Sid from studentDetails";
+	            
+	            statement = con.prepareStatement(sql);
+	            
+	            ResultSet rs = statement.executeQuery();
+	            while(rs.next()) {
+					 studentIds.add(rs.getString(1));
+	            }
+	            con.close();
+	            status=false;
+	            for(int i=0;i<studentIds.size();i++){
+	            	if(studentId.equals(studentIds.get(i))){
+	            		status=true;
+	            	}
+	            	
+	            }
+	            
+	    	}
+			catch(SQLException ex) {
+						System.out.println("error");
+					}
+	    	
+	    	
+	    }    
 }

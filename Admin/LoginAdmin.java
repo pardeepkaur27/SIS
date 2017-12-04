@@ -88,8 +88,7 @@ public class LoginAdmin extends JFrame{
 				s=new adminHome();
 				s.setVisible(true);
 				status=true;
-				
-				
+					
 			}
 			    
 			}

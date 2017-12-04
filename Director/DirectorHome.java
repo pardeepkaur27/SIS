@@ -42,6 +42,14 @@ public class DirectorHome extends JFrame {
 		JButton btnViewGrades = new JButton("View Grades");
 		btnViewGrades.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnViewGrades.setBounds(100, 140, 150, 30);
+		btnViewGrades.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			    new ViewGrades().setVisible(true);
+			     
+			  		
+			}
+		});
 		
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));

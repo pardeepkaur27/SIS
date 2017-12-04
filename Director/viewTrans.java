@@ -18,6 +18,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import com.itextpdf.text.Document;
@@ -26,6 +27,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import Admin.ViewTranscript;
 import Admin.adminHome;
 import studentSystem.DB;
 import studentSystem.Student;
@@ -33,6 +35,7 @@ import studentSystem.Student;
 public class viewTrans extends JFrame {
 	Student student = new Student();
 	static String S1;
+	 boolean status; 
     private static final String FILE_NAME = "itext.pdf";
     
     public viewTrans(){
@@ -58,7 +61,14 @@ public class viewTrans extends JFrame {
     	btnViewTranscript.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			S1=textField.getText();
+    			
+    			checkStudentId();
+    			if(status==true){
     		    writeUsingIText();
+    			}else{
+    				JOptionPane.showMessageDialog(viewTrans.this,"Invalid student id");
+    				textField.setText("");
+    			}
     				
     		}
     	});
@@ -195,5 +205,37 @@ public class viewTrans extends JFrame {
             e.printStackTrace();
         }
         }
+    
+    public void checkStudentId(){
+    	try{
+    		List<String> studentIds=new ArrayList<String>();
+    		PreparedStatement statement = null;
+    		Connection con=DB.getConnection();
+			String id = S1;
+			System.out.println(id);
+			String sql = "Select Sid from studentDetails";
+            
+            statement = con.prepareStatement(sql);
+            
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()) {
+				 studentIds.add(rs.getString(1));
+            }
+            con.close();
+            status=false;
+            for(int i=0;i<studentIds.size();i++){
+            	if(S1.equals(studentIds.get(i))){
+            		status=true;
+            	}
+            	
+            }
+            
+    	}
+		catch(SQLException ex) {
+					System.out.println("error");
+				}
+    	
+    	
+    }
 
     }

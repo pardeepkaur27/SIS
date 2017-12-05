@@ -23,7 +23,7 @@ public class adminHome extends JFrame{
 	ViewTranscript view;
      public adminHome() {
     	 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     	setBounds(250, 250, 450, 400);
+     	setBounds(250, 250, 480, 450);
  	
 	
 	JLabel lbl1 = new JLabel("Admin Home");
@@ -44,6 +44,13 @@ public class adminHome extends JFrame{
 	
 	JButton btnUpdateCalendar = new JButton("Update Calender");
 	btnUpdateCalendar.setBounds(200, 90,150, 30); 
+	btnUpdateCalendar.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+		      new ViewCgpa().setVisible(true);
+		     	
+		}
+	});
 	
 	JButton btnViewCgpa = new JButton("View CGPA");
 	btnViewCgpa.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -149,9 +156,32 @@ public class adminHome extends JFrame{
 		 }
 	});
 	
+	JButton btnUpdateCourse = new JButton("Update course");
+	btnUpdateCourse.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnUpdateCourse.setBounds(40,290, 150, 30);
+	btnUpdateCourse.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			new CourseUpdate().setVisible(true);
+		    
+			
+		 }
+	});
+	
+	JButton btnShowCalendar = new JButton("Show Calendar");
+	btnShowCalendar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnShowCalendar.setBounds(200,290, 150, 30);
+	btnShowCalendar.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			new calander();
+		    
+			
+		 }
+	});
+	
 	JButton btnLogout = new JButton("Logout");
 	btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnLogout.setBounds(80,290, 150, 30);
+	btnLogout.setBounds(80,330, 150, 30);
 	btnLogout.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			dispose();
@@ -162,6 +192,8 @@ public class adminHome extends JFrame{
 	});
 	setLayout(null);
 	
+	add(btnUpdateCourse);
+	add(btnShowCalendar);
 	add(btnPassRetrieve);
 	add(lbl1);
 	add(btnAddCourse);

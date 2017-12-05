@@ -7,14 +7,15 @@ import java.sql.*;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
+
+import studentSystem.DB;
 public class calander {  
 	private static final String FILE_NAME = "itext.pdf";
         public static void main(String[] args) throws Exception{
         	 
                 /* Create Connection objects */
-                Class.forName ("oracle.jdbc.OracleDriver"); 
-                Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "deep2", "system");
-                Statement stmt = conn.createStatement();
+        	   Connection con=DB.getConnection();
+                Statement stmt = con.createStatement();
                 /* Define the SQL query */
                 ResultSet query_set = stmt.executeQuery("SELECT DAY,DATES,EVENT from calander");
                 /* Step-2: Initialize PDF documents - logical objects */
@@ -36,12 +37,7 @@ public class calander {
                                 String events=query_set.getString("EVENT");
                                 table_cell=new PdfPCell(new Phrase(events));
                                 my_report_table.addCell(table_cell);
-                                //String manager_id=query_set.getString("MANAGER_ID");
-                                //table_cell=new PdfPCell(new Phrase(manager_id));
-                                //my_report_table.addCell(table_cell);
-                                //String location_id=query_set.getString("LOCATION_ID");
-                                //table_cell=new PdfPCell(new Phrase(location_id));
-                                //my_report_table.addCell(table_cell);
+                                
                                 }
                 /* Attach report table to PDF */
                 my_pdf_report.add(my_report_table);                       
@@ -50,7 +46,7 @@ public class calander {
                 /* Close all DB related objects */
                 query_set.close();
                 stmt.close(); 
-                conn.close();               
+                con.close();               
                 
         }
 }

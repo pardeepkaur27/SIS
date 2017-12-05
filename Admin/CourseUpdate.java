@@ -1,26 +1,37 @@
 package Admin;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 import studentSystem.DB;
 import studentSystem.Main;
 
-import javax.swing.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-public class courseData extends JFrame implements ActionListener{
+public class CourseUpdate extends JFrame implements ActionListener{
 	static courseData s;
-	
+	String s1;
+	boolean status;
 	JLabel lb, lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8;
     JTextField tf1, tf2, tf3, tf4, tf5, tf6, tf7, tf8;
     JTextField tfCapacity;
     JButton btn1, btn2;
-    boolean status;
-    String s1;
-    public courseData(){
+    
+    public CourseUpdate(){
     	
+ 
+       
         btn2 = new JButton("Clear");
         btn2.setBounds(160,360, 100, 20);
         btn2.addActionListener(this);
@@ -68,10 +79,12 @@ public class courseData extends JFrame implements ActionListener{
         tfCapacity = new JTextField(50);
         tfCapacity.setBounds(130, 330, 200, 20);
  
-        btn1 = new JButton("Submit");
+        btn1 = new JButton("Update");
         btn1.setBounds(60,360, 100, 20);
         btn1.addActionListener(this);
-       
+        //Add components to the JFrame
+        //add(lb5);
+        //add(tf5);
         
         JButton btnBack = new JButton("Back");
     	btnBack.setBounds(50,400, 100, 20);
@@ -138,17 +151,17 @@ public class courseData extends JFrame implements ActionListener{
 	            String s8 = tf8.getText();
 	            String capacity=tfCapacity.getText();
 	            checkCourseId();
-    			if(status==true){
-    				JOptionPane.showMessageDialog(courseData.this,"This course already exist");
+    			if(status==false){
+    				JOptionPane.showMessageDialog(CourseUpdate.this,"This course doesn't exist");
     			}else{
     				
-	            try
+    			 try
 	            {
 	            	
 	            	 Class.forName("oracle.jdbc.driver.OracleDriver");
 	            	 Connection con =DB.getConnection();
 	            	 
-	            	 PreparedStatement ps = con.prepareStatement("insert into courses values (?,?,?,?,?,TO_DATE(?,'yyyy/mm/dd'),?)");
+	            	 PreparedStatement ps = con.prepareStatement("update courses set course_id=?, course_name =?, Sem_id =?, department =?, faculty=?, dated=TO_DATE(?,'yyyy/mm/dd'), credits=? where course_id ='" + s1 +"'");
 	            	    ps.setString(1, s1);
 	                    ps.setString(2, s2);
 	                    ps.setString(3, s3);
@@ -158,11 +171,7 @@ public class courseData extends JFrame implements ActionListener{
 	                    ps.setString(7, s8);
 	                    ResultSet rs = ps.executeQuery(); 
 	                    
-	                    ps= con.prepareStatement("insert into capacity values(?,?)");
-	                    ps.setString(1, s1);
-	                    ps.setString(2, capacity);
-	                    
-	                    rs = ps.executeQuery(); 
+	                   
 	            	x++;
 	            if(x>0){ JOptionPane.showMessageDialog(btn1, "Data Saved Successfully");}	
 	            	            	
@@ -170,8 +179,8 @@ public class courseData extends JFrame implements ActionListener{
 	            {System.out.println(ex);}
 			 
 		 }
-		 }
 	
+		 }
 	 else
      {
           tf1.setText("");
@@ -185,6 +194,10 @@ public class courseData extends JFrame implements ActionListener{
       }
 		 
 }
+	 public static void main(String args[])
+	   {
+	        new courseData();
+	    }
 	public void checkCourseId(){
 		try{
     		List<String> courseIds=new ArrayList<String>();
@@ -216,8 +229,8 @@ public class courseData extends JFrame implements ActionListener{
     	
     	
     }
-	 public static void main(String args[])
-	   {
-	        new courseData();
-	    }
+		 
+	 
+	 
 }
+

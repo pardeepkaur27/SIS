@@ -16,22 +16,25 @@ public class calander {
                 Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "deep2", "system");
                 Statement stmt = conn.createStatement();
                 /* Define the SQL query */
-                ResultSet query_set = stmt.executeQuery("SELECT DAYDATE,EVENTS from calander");
+                ResultSet query_set = stmt.executeQuery("SELECT DAY,DATES,EVENT from calander");
                 /* Step-2: Initialize PDF documents - logical objects */
                 Document my_pdf_report = new Document();
                 PdfWriter.getInstance(my_pdf_report, new FileOutputStream(new File(FILE_NAME)));
                 my_pdf_report.open();            
                 //we have four columns in our table
-                PdfPTable my_report_table = new PdfPTable(2);
+                PdfPTable my_report_table = new PdfPTable(3);
                 //create a cell object
                 PdfPCell table_cell;
                
                 while (query_set.next()) {                
-                                String dept_id = query_set.getString("DAYDATE");
-                                table_cell=new PdfPCell(new Phrase(dept_id));
+                                String day = query_set.getString("DAY");
+                                table_cell=new PdfPCell(new Phrase(day));
                                 my_report_table.addCell(table_cell);
-                                String dept_name=query_set.getString("EVENTS");
-                                table_cell=new PdfPCell(new Phrase(dept_name));
+                                String dates = query_set.getString("DATES");
+                                table_cell=new PdfPCell(new Phrase(dates));
+                                my_report_table.addCell(table_cell);
+                                String events=query_set.getString("EVENT");
+                                table_cell=new PdfPCell(new Phrase(events));
                                 my_report_table.addCell(table_cell);
                                 //String manager_id=query_set.getString("MANAGER_ID");
                                 //table_cell=new PdfPCell(new Phrase(manager_id));

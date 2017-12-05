@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,12 +18,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class FeePayment  extends JFrame {
-	String selected;
+	String selected, cardNo;
 	String selPayOption;
+	boolean cardStatus;
 	int pay;
 	int amount;
 	 String semId;
 	Student student = new Student();
+	JTextField txtCardNo;
 	 getEnrollDetails enrollDetails=new getEnrollDetails();
 	public FeePayment(){
 		 
@@ -74,10 +77,11 @@ public class FeePayment  extends JFrame {
     	JLabel lblCardNo = new JLabel("Enter Card no.: ");
    	    lblCardNo.setBounds(40, 220, 150, 30);
  	
- 	    JTextField txtCardNo=new JTextField();
- 	    txtCardNo.setBounds(150, 220, 100, 20);
-    	
-    	String methodPay[]={"VISA","Mastercard","International wire transfer"};        
+ 	    txtCardNo=new JTextField(16);
+ 	    txtCardNo.setBounds(150, 220, 150, 20);
+ 	  
+ 	
+    	String methodPay[]={"Credit Card","International wire transfer"};        
    	    JComboBox cbPay=new JComboBox(methodPay);    
    	    cbPay.setBounds(150, 185,150, 20); 
    	    
@@ -92,21 +96,47 @@ public class FeePayment  extends JFrame {
      			pay=getAmount()-pay;
      			selected=cbPay.getSelectedItem().toString();
      			System.out.println(selected);
-     			try{
-     				PreparedStatement statement = null;
-     				Connection con=DB.getConnection();
-     				 String id = student.getUname();
-     				
-     				String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
-     		         statement = con.prepareStatement(sql);
-     		         statement.executeUpdate();
-     		        
-     		        JOptionPane.showMessageDialog(null," Payment received sucessfully");	
-     			con.close();
+     			if(cardStatus==false){
+     				 try{
+     					PreparedStatement statement = null;
+     					Connection con=DB.getConnection();
+     					 String id = student.getUname();
+     					
+     					String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
+     			         statement = con.prepareStatement(sql);
+     			         statement.executeUpdate();
+     			        
+     			        JOptionPane.showMessageDialog(FeePayment.this," Payment received sucessfully");	
+     				con.close();
+     				}
+     				catch(SQLException ex) {
+     							System.out.println("error");
+     						} 
      			}
-     			catch(SQLException ex) {
-     						System.out.println("error");
-     					}
+     			else{
+     			cardNo=txtCardNo.getText();
+     			if (cardNo.length()<16||cardNo.length()>16){
+     				JOptionPane.showMessageDialog(FeePayment.this," Enter valid card no.");
+     			}
+     			else{
+     			
+     				 try{
+     					PreparedStatement statement = null;
+     					Connection con=DB.getConnection();
+     					 String id = student.getUname();
+     					
+     					String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
+     			         statement = con.prepareStatement(sql);
+     			         statement.executeUpdate();
+     			        
+     			        JOptionPane.showMessageDialog(FeePayment.this," Payment received sucessfully");	
+     				con.close();
+     				}
+     				catch(SQLException ex) {
+     							System.out.println("error");
+     						} 
+     			}
+     			}
      		}
      	});
     	
@@ -155,12 +185,31 @@ public class FeePayment  extends JFrame {
       			 else{
       				lblCardNo.setVisible(true);
      		    	 txtCardNo.setVisible(true);
+     		    	cardStatus=true;
       			 }
       		}	
       		});
     	
     	 
 	}
+	
+	 public void updateFee(){
+		 try{
+				PreparedStatement statement = null;
+				Connection con=DB.getConnection();
+				 String id = student.getUname();
+				
+				String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
+		         statement = con.prepareStatement(sql);
+		         statement.executeUpdate();
+		        
+		        JOptionPane.showMessageDialog(FeePayment.this," Payment received sucessfully");	
+			con.close();
+			}
+			catch(SQLException ex) {
+						System.out.println("error");
+					} 
+	 }
 	
  public void setAmount(int index){
 	 int amount = 0;

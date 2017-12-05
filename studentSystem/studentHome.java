@@ -1,6 +1,8 @@
 package studentSystem;
 
 import Admin.ViewTranscript;
+import Admin.calander;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -104,9 +106,19 @@ public class studentHome extends JFrame{
 		     }
 	});
 	
+	JButton btnShowCalendar = new JButton("Show Calendar");
+	btnShowCalendar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	btnShowCalendar.setBounds(90,210, 150, 30);
+	btnShowCalendar.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			new calander();
+		    
+		 }
+	});
+	
 	JButton btnLogout = new JButton("Logout");
 	btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
-	btnLogout.setBounds(90,210, 150, 30);
+	btnLogout.setBounds(90,250, 150, 30);
 	btnLogout.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			dispose();
@@ -118,6 +130,7 @@ public class studentHome extends JFrame{
 	
 	setLayout(null);
 	add(lbl1);
+	add(btnShowCalendar);
 	add(btnSearchCourse);
 	add(btnAddCourse);
 	add(btnDropCourse);

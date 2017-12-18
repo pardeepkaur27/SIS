@@ -19,11 +19,12 @@ import javax.swing.JTextField;
 
 public class FeePayment  extends JFrame {
 	String selected, cardNo;
+	boolean control;
 	String selPayOption;
 	boolean cardStatus;
-	int pay;
+	int pay,pay2;
 	int amount;
-	 String semId;
+	 String sem_nam;
 	Student student = new Student();
 	JTextField txtCardNo;
 	 getEnrollDetails enrollDetails=new getEnrollDetails();
@@ -40,14 +41,14 @@ public class FeePayment  extends JFrame {
 		JLabel lblTerm=new JLabel("Term:");
 		lblTerm.setBounds(40, 90, 100, 30);
 		
-		String term[]={"Fall","Winter","Summer1","Summer2"};        
-		JComboBox cbTerm=new JComboBox(term);    
+		String term[]={"Winter 2018","Summer 2018","Fall 2018","Winter 2019","Summer 2019","Fall 2019"};        
+		final JComboBox cbTerm=new JComboBox(term);    
         cbTerm.setBounds(150, 90,100, 20); 
         
        // int index= cbTerm.getSelectedIndex();
        // setAmount(index);
         
-        JTextField txtTotal=new JTextField();
+        final JTextField txtTotal=new JTextField();
     	txtTotal.setBounds(150, 125, 100, 20);
         
         cbTerm.addActionListener(new ActionListener() {
@@ -57,7 +58,7 @@ public class FeePayment  extends JFrame {
      	        txtTotal.setText(String.valueOf(getAmount()));
      		}});
 		
-		JLabel lblTotalFee = new JLabel("Total fees to pay: ");
+		JLabel lblTotalFee = new JLabel("Charges: ");
 		lblTotalFee.setBounds(40, 120, 100, 30);
 		
     	
@@ -67,14 +68,14 @@ public class FeePayment  extends JFrame {
     	JLabel lblPayFee = new JLabel("Pay Now: ");
     	lblPayFee.setBounds(40, 150, 100, 30);
     	
-    	JTextField txtPayFee=new JTextField();
+    	final JTextField txtPayFee=new JTextField();
     	txtPayFee.setBounds(150, 155, 100, 20);
     	
     	JLabel lblSelect = new JLabel("Payment mode: ");
     	lblSelect.setBounds(40, 180, 150, 30);
     	setLayout(null);
     	
-    	JLabel lblCardNo = new JLabel("Enter Card no.: ");
+    	final JLabel lblCardNo = new JLabel("Enter Card no.: ");
    	    lblCardNo.setBounds(40, 220, 150, 30);
  	
  	    txtCardNo=new JTextField(16);
@@ -82,27 +83,53 @@ public class FeePayment  extends JFrame {
  	  
  	
     	String methodPay[]={"Credit Card","International wire transfer"};        
-   	    JComboBox cbPay=new JComboBox(methodPay);    
+   	    final JComboBox cbPay=new JComboBox(methodPay);    
    	    cbPay.setBounds(150, 185,150, 20); 
    	    
    	    
    	    
-   	    
-   	    JButton btnPay = new JButton("Pay");
-    	btnPay.setBounds(100,260, 100, 30);
+   	       JButton btnPay = new JButton("Pay");
+    	btnPay.setBounds(70,260, 100, 30);
+    	
+    	JButton btnInquiry = new JButton("Account Inquiry");
+    	btnInquiry.setBounds(190,260, 150, 30);
+    	btnInquiry.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			
+   		     AccountInquiry Accountinquiry= new AccountInquiry();
+   		       				
+   		}
+   	});
+   	
+    	
+    	
+    	
     	btnPay.addActionListener(new ActionListener() {
+    		
      		public void actionPerformed(ActionEvent e) {
+     			
      			pay=Integer.parseInt(txtPayFee.getText());
-     			pay=getAmount()-pay;
+     			 pay2=getAmount()-pay;
+     			 if(getAmount()==pay){
+     				 control=true;}else if (getAmount()<pay){
+     					JOptionPane.showMessageDialog(FeePayment.this," You have paid more than charges for this semester.It will be reflected as negative balance in Future Due");
+     					control=true;
+     				 }else if(pay<=0){
+     					JOptionPane.showMessageDialog(FeePayment.this,"Please enter valid amount");
+     					control=false;
+     					//System.exit(-1);
+     				}else{
+     					 control=true;
+     				 }   			 
      			selected=cbPay.getSelectedItem().toString();
      			System.out.println(selected);
-     			if(cardStatus==false){
+     			if(cardStatus==false && control==true){
      				 try{
      					PreparedStatement statement = null;
      					Connection con=DB.getConnection();
      					 String id = student.getUname();
      					
-     					String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
+     					String sql = "update fees set payments='"+ pay +"' ,due='" + pay2 + "' where Sid='" +id+"' and sem_name='" + sem_nam +"'"; 
      			         statement = con.prepareStatement(sql);
      			         statement.executeUpdate();
      			        
@@ -110,12 +137,14 @@ public class FeePayment  extends JFrame {
      				con.close();
      				}
      				catch(SQLException ex) {
-     							System.out.println("error");
+     							System.out.println("Error"+ex);
+     							//JOptionPane.showMessageDialog(FeePayment.this," Payment received sucessfully");	
+     							
      						} 
      			}
      			else{
      			cardNo=txtCardNo.getText();
-     			if (cardNo.length()<16||cardNo.length()>16){
+     			if (cardNo.length()!=16 && control== true){
      				JOptionPane.showMessageDialog(FeePayment.this," Enter valid card no.");
      			}
      			else{
@@ -123,17 +152,17 @@ public class FeePayment  extends JFrame {
      				 try{
      					PreparedStatement statement = null;
      					Connection con=DB.getConnection();
-     					 String id = student.getUname();
+     					String id = student.getUname();
      					
-     					String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
-     			         statement = con.prepareStatement(sql);
-     			         statement.executeUpdate();
+     					String sql = "update fees set payments='" +pay+ "' ,due='" + pay2 + "' where Sid='" + id +"' and sem_name='" + sem_nam +"'"; 
+     			        statement = con.prepareStatement(sql);
+     			        statement.executeUpdate();
      			        
-     			        JOptionPane.showMessageDialog(FeePayment.this," Payment received sucessfully");	
+     			        JOptionPane.showMessageDialog(FeePayment.this," Payment unsuccesful");	
      				con.close();
      				}
-     				catch(SQLException ex) {
-     							System.out.println("error");
+     				catch(Exception ex) {
+     							System.out.println("Ex" +ex);
      						} 
      			}
      			}
@@ -171,6 +200,7 @@ public class FeePayment  extends JFrame {
     	 add(lblSelect);
     	 add(cbPay);
     	 add(btnPay);
+    	 add(btnInquiry);
     	 add(btnBack);
     	 add(btnLogout);
     	 setVisible(true);
@@ -193,13 +223,13 @@ public class FeePayment  extends JFrame {
     	 
 	}
 	
-	 public void updateFee(){
+	 /*public void updateFee(){
 		 try{
 				PreparedStatement statement = null;
 				Connection con=DB.getConnection();
 				 String id = student.getUname();
 				
-				String sql = "update fee set amount='" +pay+ "' where Sid='" + id +"' and sem_id='" +semId+"'"; 
+				String sql = "update fees set payments='" +pay+ "' , due='"+pay2+"' where Sid='" + id +"' and sem_name='" +sem_nam+"'"; 
 		         statement = con.prepareStatement(sql);
 		         statement.executeUpdate();
 		        
@@ -207,22 +237,26 @@ public class FeePayment  extends JFrame {
 			con.close();
 			}
 			catch(SQLException ex) {
-						System.out.println("error");
+						System.out.println("Sql error" +ex);
 					} 
 	 }
-	
+	*/
  public void setAmount(int index){
-	 int amount = 0;
+	 int amount = 100;
 	
-	 if (index==0){semId="1";}
-	 else if (index==1){semId="2";}
-	 else if (index==2){semId="3";}
-	 else  {semId="4";}
+	 if (index==0){sem_nam="Winter 2018";}
+	 else if (index==1){sem_nam="Summer 2018";}
+	 else if (index==2){sem_nam="Fall 2018";}
+	 else if (index==3){sem_nam="Winter 2019";}
+	 else if (index==4){sem_nam="Summer 2019";}
+	 else {sem_nam="Fall 2019";}
+	 
 	 try{
 			Connection con=DB.getConnection();
 			String id = student.getUname();
-			System.out.println(semId+" "+id);
-			String sql="Select amount from fee where Sid='" + id + "' and Sem_id='"+ semId+"'";
+			String second;
+		System.out.println(sem_nam+" "+id);
+			String sql="Select due from fees where Sid='" + id + "' and sem_name='" + sem_nam + "' ";
 			
 			PreparedStatement statement = con.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery(sql);
@@ -238,5 +272,4 @@ public class FeePayment  extends JFrame {
  }
    public int getAmount(){
 	 return amount;
-   }
-}
+   }}

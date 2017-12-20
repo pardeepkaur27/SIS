@@ -110,17 +110,26 @@ public class FeePayment  extends JFrame {
      			
      			pay=Integer.parseInt(txtPayFee.getText());
      			 pay2=getAmount()-pay;
+     			 
      			 if(getAmount()==pay){
-     				 control=true;}else if (getAmount()<pay){
-     					JOptionPane.showMessageDialog(FeePayment.this," You have paid more than charges for this semester.It will be reflected as negative balance in Future Due");
+     				JOptionPane.showMessageDialog(FeePayment.this,"You have no future dues for this semester");
+     				 control=true;
+     				 }else if (getAmount()<pay){
+     					JOptionPane.showMessageDialog(FeePayment.this," You paid more than the charges for this semester it will be reflected in the future due as negative.");
      					control=true;
      				 }else if(pay<=0){
      					JOptionPane.showMessageDialog(FeePayment.this,"Please enter valid amount");
      					control=false;
      					//System.exit(-1);
-     				}else{
-     					 control=true;
-     				 }   			 
+     				}else if(getAmount()>pay){
+     					JOptionPane.showMessageDialog(FeePayment.this,"You have future dues for this semester");
+        				 control=true;
+     				}else if(pay!=(int)pay){
+     					JOptionPane.showMessageDialog(FeePayment.this,"You have entered wrong input data");
+       				 control=false;
+     				} else {
+     				 control=true;
+     				 }  			 
      			selected=cbPay.getSelectedItem().toString();
      			System.out.println(selected);
      			if(cardStatus==false && control==true){
@@ -144,26 +153,28 @@ public class FeePayment  extends JFrame {
      			}
      			else{
      			cardNo=txtCardNo.getText();
-     			if (cardNo.length()!=16 && control== true){
-     				JOptionPane.showMessageDialog(FeePayment.this," Enter valid card no.");
-     			}
-     			else{
-     			
+     			if (cardNo.length()==16 && control==true){
+     				
+     				
      				 try{
-     					PreparedStatement statement = null;
-     					Connection con=DB.getConnection();
-     					String id = student.getUname();
-     					
-     					String sql = "update fees set payments='" +pay+ "' ,due='" + pay2 + "' where Sid='" + id +"' and sem_name='" + sem_nam +"'"; 
-     			        statement = con.prepareStatement(sql);
-     			        statement.executeUpdate();
-     			        
-     			        JOptionPane.showMessageDialog(FeePayment.this," Payment unsuccesful");	
-     				con.close();
-     				}
-     				catch(Exception ex) {
-     							System.out.println("Ex" +ex);
-     						} 
+      					PreparedStatement statement = null;
+      					Connection con=DB.getConnection();
+      					String id = student.getUname();
+      					
+      					String sql = "update fees set payments='" +pay+ "' ,due='" + pay2 + "' where Sid='" + id +"' and sem_name='" + sem_nam +"'"; 
+      			        statement = con.prepareStatement(sql);
+      			        statement.executeUpdate();
+      			        
+      			        JOptionPane.showMessageDialog(FeePayment.this," Payment succesful");	
+      				con.close();
+      				}
+      				catch(Exception ex) {
+      							System.out.println("Ex" +ex);
+      						} 
+     				
+     			}else{
+     			
+     				JOptionPane.showMessageDialog(FeePayment.this," Enter valid card no.");
      			}
      			}
      		}
@@ -223,7 +234,7 @@ public class FeePayment  extends JFrame {
     	 
 	}
 	
-	 /*public void updateFee(){
+	/* public void updateFee(){
 		 try{
 				PreparedStatement statement = null;
 				Connection con=DB.getConnection();
